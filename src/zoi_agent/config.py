@@ -46,6 +46,7 @@ class Settings(BaseSettings):
     conversation_history_limit: int = 100
     inventory_search_limit: int = 10
     responder_max_bubbles: int = 3
+    photo_max_send: int = 6  # máximo de fotos enviadas por veículo (evita spam)
     responder_sleep_min: float = 0.6
     responder_sleep_max: float = 1.2
     human_request_threshold: int = 2

@@ -13,6 +13,7 @@ from difflib import SequenceMatcher
 from typing import Any
 
 from zoi_agent.agent.schemas import SessionState
+from zoi_agent.config import settings
 from zoi_agent.logging import get_logger
 from zoi_agent.tools.inventory import (
     load_inventory,
@@ -204,7 +205,7 @@ async def pick_target_vehicle(
 def _payload_for_vehicle(v: dict) -> dict[str, Any]:
     imgs = v.get("imagens") or []
     single_only = len(imgs) == 1
-    send_imgs: list[str] = [] if len(imgs) < 2 else imgs
+    send_imgs: list[str] = [] if len(imgs) < 2 else imgs[:settings.photo_max_send]
     return {
         "available": True,
         "vehicle": {
@@ -268,7 +269,7 @@ async def build_photo_payload(
         }
     imgs = v.get("imagens") or []
     single_only = len(imgs) == 1
-    send_imgs: list[str] = [] if len(imgs) < 2 else imgs
+    send_imgs: list[str] = [] if len(imgs) < 2 else imgs[:settings.photo_max_send]
     return {
         "available": True,
         "vehicle": {
