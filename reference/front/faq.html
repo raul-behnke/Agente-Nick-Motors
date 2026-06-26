@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ | Nick Motors</title>
+  <style>
+    @import url('https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap');
+
+    :root {
+      --green-400: #b5ff81;
+      --green-500: #90cc67;
+      --green-900: #364c26;
+      --neutral-0: #ffffff;
+      --neutral-50: #f7fff2;
+      --neutral-100: #eef3ea;
+      --neutral-200: rgba(20, 20, 20, 0.08);
+      --neutral-300: rgba(20, 20, 20, 0.14);
+      --neutral-500: #6f766c;
+      --neutral-700: #41463f;
+      --neutral-900: #141414;
+      --danger: #c0392b;
+      --success: #2e7d32;
+      --shadow-sm: 0 10px 30px rgba(18, 30, 15, 0.06);
+      --shadow-md: 0 24px 60px rgba(18, 30, 15, 0.12);
+      --radius-sm: 0.875rem;
+      --radius-md: 1.25rem;
+      --radius-lg: 2rem;
+      --radius-full: 999px;
+      --font-display: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --transition: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+      --container: 84rem;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font-body);
+      color: var(--neutral-900);
+      background:
+        radial-gradient(circle at top left, rgba(181, 255, 129, 0.18), transparent 26%),
+        radial-gradient(circle at right center, rgba(144, 204, 103, 0.14), transparent 24%),
+        linear-gradient(135deg, #fbfffa 0%, #f5fdef 45%, #ffffff 100%);
+      background-attachment: fixed;
+      line-height: 1.5;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(54, 76, 38, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(54, 76, 38, 0.03) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: radial-gradient(circle at center, black 45%, transparent 100%);
+      opacity: 0.45;
+    }
+
+    .container {
+      width: min(calc(100% - 2rem), var(--container));
+      margin: 0 auto;
+      padding: 1.5rem 0 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      margin: 0;
+      font-family: var(--font-display);
+      letter-spacing: -0.03em;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .setup-card,
+    .category-card,
+    .submit-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(20, 20, 20, 0.08);
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(18px) saturate(160%);
+    }
+
+    .setup-card,
+    .submit-card {
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .setup-card::before,
+    .category-card::before,
+    .submit-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(181, 255, 129, 0.12), transparent 36%);
+      pointer-events: none;
+    }
+
+    .setup-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: flex-start;
+      margin-bottom: 1.25rem;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.55rem 0.9rem;
+      border-radius: var(--radius-full);
+      background: rgba(181, 255, 129, 0.22);
+      border: 1px solid rgba(54, 76, 38, 0.08);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--green-900);
+    }
+
+    .setup-title {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 0.95;
+      margin-top: 1rem;
+    }
+
+    .setup-copy {
+      max-width: 54rem;
+      margin-top: 1rem;
+      color: var(--neutral-700);
+    }
+
+    .setup-meta {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 8rem;
+      padding: 0.85rem 1rem;
+      border-radius: 1.15rem;
+      background: var(--neutral-900);
+      color: var(--neutral-0);
+      font-family: var(--font-display);
+      font-size: 1rem;
+    }
+
+    .config-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .field,
+    .question-field {
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .label {
+      font-size: 0.86rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: var(--neutral-700);
+    }
+
+    .hint {
+      font-size: 0.82rem;
+      color: var(--neutral-500);
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid var(--neutral-300);
+      background: rgba(255, 255, 255, 0.96);
+      color: var(--neutral-900);
+      border-radius: var(--radius-sm);
+      padding: 0.95rem 1rem;
+      font: inherit;
+      transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--green-500);
+      box-shadow: 0 0 0 4px rgba(181, 255, 129, 0.24);
+    }
+
+    textarea {
+      min-height: 8rem;
+      resize: vertical;
+    }
+
+    .tabs-header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin: 0 0 1.5rem;
+    }
+
+    .tab-button {
+      border: 1px solid rgba(20, 20, 20, 0.08);
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--neutral-700);
+      border-radius: var(--radius-full);
+      padding: 0.9rem 1.2rem;
+      font: inherit;
+      cursor: pointer;
+      transition: transform var(--transition), background var(--transition), color var(--transition), border-color var(--transition), box-shadow var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .tab-button:hover,
+    .tab-button:focus-visible {
+      transform: translateY(-2px);
+      background: rgba(181, 255, 129, 0.18);
+      color: var(--neutral-900);
+      outline: none;
+    }
+
+    .tab-button.active {
+      background: var(--neutral-900);
+      color: var(--neutral-0);
+      border-color: var(--neutral-900);
+      box-shadow: 0 18px 40px rgba(20, 20, 20, 0.14);
+    }
+
+    .tab-meta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 1.8rem;
+      height: 1.8rem;
+      padding: 0 0.5rem;
+      border-radius: var(--radius-full);
+      background: rgba(54, 76, 38, 0.08);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .tab-button.active .tab-meta {
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    .tab-panel {
+      display: none;
+      animation: reveal 320ms ease;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    @keyframes reveal {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .category-card {
+      padding: 1.5rem;
+    }
+
+    .category-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: end;
+      margin-bottom: 1.5rem;
+    }
+
+    .category-kicker {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--green-900);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .category-title {
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      line-height: 0.95;
+    }
+
+    .category-description {
+      max-width: 42rem;
+      color: var(--neutral-700);
+      margin-top: 0.85rem;
+    }
+
+    .category-count {
+      flex-shrink: 0;
+      padding: 0.85rem 1rem;
+      border-radius: 1.15rem;
+      background: var(--neutral-900);
+      color: var(--neutral-0);
+      font-family: var(--font-display);
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .faq-item {
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(20, 20, 20, 0.08);
+      background: rgba(247, 255, 242, 0.84);
+      padding: 1rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .faq-item-header {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .faq-index {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.1rem;
+      height: 2.1rem;
+      border-radius: 0.8rem;
+      background: rgba(54, 76, 38, 0.08);
+      color: var(--green-900);
+      font-size: 0.85rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .faq-question {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--neutral-900);
+    }
+
+    .submit-card {
+      margin-top: 1.5rem;
+    }
+
+    .submit-layout {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .submit-copy {
+      max-width: 42rem;
+      color: var(--neutral-700);
+      margin-top: 0.75rem;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+
+    .btn {
+      appearance: none;
+      border: 0;
+      border-radius: var(--radius-full);
+      padding: 0.95rem 1.35rem;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition), color var(--transition);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: var(--neutral-900);
+      color: var(--neutral-0);
+      box-shadow: 0 18px 40px rgba(20, 20, 20, 0.14);
+    }
+
+    .btn-secondary {
+      background: rgba(181, 255, 129, 0.22);
+      color: var(--green-900);
+      border: 1px solid rgba(54, 76, 38, 0.08);
+    }
+
+    .status {
+      margin-top: 1rem;
+      padding: 0.95rem 1rem;
+      border-radius: var(--radius-md);
+      background: rgba(20, 20, 20, 0.04);
+      color: var(--neutral-700);
+      font-size: 0.95rem;
+      white-space: pre-wrap;
+    }
+
+    .status.error {
+      background: rgba(192, 57, 43, 0.08);
+      color: var(--danger);
+    }
+
+    .status.success {
+      background: rgba(46, 125, 50, 0.08);
+      color: var(--success);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 900px) {
+      .config-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .setup-header,
+      .category-top,
+      .submit-layout {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: min(calc(100% - 1rem), var(--container));
+        padding-top: 1rem;
+      }
+
+      .setup-card,
+      .category-card,
+      .submit-card {
+        padding: 1.15rem;
+      }
+
+      .tabs-header {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 0.25rem;
+      }
+
+      .tab-button {
+        white-space: nowrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section aria-label="FAQ por categoria">
+      <div class="tabs-header" id="tabs" role="tablist" aria-label="Categorias do FAQ"></div>
+      <div id="panels"></div>
+    </section>
+
+    <section class="submit-card" aria-label="Envio do FAQ para o CRM">
+      <div class="submit-layout">
+        <div>
+          <span class="eyebrow">Envio final</span>
+          <h2 class="category-title" style="margin-top: 1rem;">Atualizar custom value no CRM</h2>
+          <p class="submit-copy">
+            O envio consolida todas as respostas preenchidas, preserva os números das perguntas e grava o conteúdo no custom value configurado acima.
+          </p>
+        </div>
+        <div class="setup-meta" id="answeredCount">0 respondidas</div>
+      </div>
+
+      <div class="button-row">
+        <button class="btn btn-primary" id="submitBtn" type="button">Salvar e Enviar</button>
+      </div>
+
+      <div class="status" id="statusBox">Aguardando preenchimento.</div>
+    </section>
+  </main>
+
+  <script>
+    const categories = [
+      {
+        id: 'atendimento',
+        title: 'Atendimento, localização e visita',
+        description: 'Perguntas sobre funcionamento da loja, formas de atendimento, acesso ao espaço e organização da visita presencial ou online.',
+        questions: [
+          'Qual é o horário de atendimento da loja?',
+          'Vocês atendem aos sábados?',
+          'A loja abre aos domingos ou feriados?',
+          'Qual é o endereço da loja?',
+          'Vocês têm mais de uma unidade?',
+          'Onde a loja está localizada (bairro/cidade)?',
+          'Tem estacionamento no local?',
+          'A loja é de fácil acesso?',
+          'Tem atendimento online ou só presencial?',
+          'Quem vai me atender? Um vendedor específico?',
+          'Posso falar direto com um consultor?',
+          'Vocês fazem atendimento por ordem de chegada ou por agendamento?',
+          'Preciso agendar para visitar a loja?',
+          'Vocês fazem atendimento fora do horário comercial?',
+          'Posso reservar um carro antes de ir até a loja?'
+        ]
+      },
+      {
+        id: 'estoque',
+        title: 'Estoque, disponibilidade e garantia',
+        description: 'Dúvidas sobre tipos de veículos, atualização de estoque, garantia, revisão e condições gerais antes da venda.',
+        questions: [
+          'Vocês trabalham com veículos seminovos ou também novos?',
+          'Todos os veículos estão disponíveis na loja?',
+          'Os carros anunciados ainda estão disponíveis?',
+          'Vocês atualizam o estoque com frequência?',
+          'Vocês trabalham com garantia nos veículos?',
+          'Quanto tempo de garantia vocês oferecem?',
+          'Os carros passam por revisão antes da venda?',
+          'Vocês trabalham com veículos de procedência garantida?',
+          'Tem opção de veículos com baixa quilometragem?',
+          'Vocês trabalham com veículos revisados?'
+        ]
+      },
+      {
+        id: 'troca',
+        title: 'Troca, compra e avaliação do usado',
+        description: 'Questões relacionadas à entrada de veículo na negociação, critérios de avaliação e possibilidade de compra direta.',
+        questions: [
+          'Vocês aceitam carro na troca?',
+          'Como funciona a avaliação do meu carro?',
+          'Preciso levar o carro até a loja para avaliação?',
+          'Vocês fazem avaliação online?',
+          'Vocês compram veículos direto de clientes?'
+        ]
+      },
+      {
+        id: 'pagamento',
+        title: 'Pagamento, financiamento e crédito',
+        description: 'Informações sobre bancos parceiros, simulações, entrada, cartão, consórcio, descontos e custos de análise.',
+        questions: [
+          'Trabalham com financiamento?',
+          'Quais bancos vocês utilizam para financiamento?',
+          'Vocês fazem simulação de financiamento?',
+          'Dá para financiar sem entrada?',
+          'Qual a taxa média de financiamento?',
+          'Vocês aceitam cartão de crédito?',
+          'Dá para parcelar no cartão?',
+          'Vocês trabalham com consórcio?',
+          'Aceitam pagamento à vista com desconto?',
+          'Posso negociar o valor do carro?',
+          'Tem algum custo para análise de crédito?'
+        ]
+      },
+      {
+        id: 'documentacao',
+        title: 'Documentação e regularização',
+        description: 'Perguntas sobre nota fiscal, documentos do veículo, transferência, análise cadastral e apoio no processo burocrático.',
+        questions: [
+          'Vocês emitem nota fiscal?',
+          'Os veículos estão com documentação em dia?',
+          'Vocês cuidam da transferência do veículo?',
+          'Quanto tempo leva para transferir o carro?',
+          'O veículo já vem transferido no nome do comprador?',
+          'Tem taxa adicional além do valor do carro?',
+          'Quanto tempo leva para finalizar a compra?',
+          'Preciso de muitos documentos para comprar?',
+          'Vocês ajudam com a documentação?'
+        ]
+      },
+      {
+        id: 'entrega',
+        title: 'Entrega, logística e test drive',
+        description: 'Respostas sobre envio para outras cidades, entrega em domicílio, custos logísticos e experiência de direção antes da compra.',
+        questions: [
+          'Vocês entregam o veículo em outra cidade?',
+          'Fazem entrega em domicílio?',
+          'Tem custo para entrega?',
+          'Posso testar o carro antes de comprar?',
+          'Vocês fazem test drive?',
+          'Preciso agendar o test drive?'
+        ]
+      },
+      {
+        id: 'procedencia',
+        title: 'Procedência, histórico e divulgação',
+        description: 'Itens ligados à origem do veículo, laudo cautelar, histórico, canais de anúncio e materiais visuais antes da visita.',
+        questions: [
+          'Os carros possuem histórico?',
+          'Vocês fornecem laudo cautelar?',
+          'Vocês anunciam em quais plataformas?',
+          'Posso ver fotos e detalhes do carro antes de ir?',
+          'Vocês enviam vídeos dos veículos?',
+          'Tem algum vendedor responsável pelo meu atendimento?',
+          'Tem algum benefício ou diferencial da loja?',
+          'Vocês seguram o veículo até eu decidir?'
+        ]
+      },
+      {
+        id: 'posvenda',
+        title: 'Pós-venda, garantia estendida e jornada de compra',
+        description: 'Dúvidas finais sobre suporte depois da entrega, resolução de problemas, fluxo de compra e relacionamento de longo prazo.',
+        questions: [
+          'Tem suporte pós-venda?',
+          'Se eu tiver problema, posso voltar na loja?',
+          'Vocês trabalham com garantia estendida?',
+          'Como funciona o processo de compra?',
+          'Vocês têm algum programa de fidelidade ou indicação?'
+        ]
+      }
+    ];
+
+    const storageKey = 'nick-motors-faq-responses';
+    const crmConfig = {
+      locationId: 'PU8y2Tjx1xqN728ysqR5',
+      customValueId: 'e3aRXb9EPD1dPonHlUcI',
+      bearerToken: 'pit-cd27978f-47f7-4a44-afd5-68e7e98bf627',
+      customValueName: 'FAQ',
+      apiVersion: '2023-02-21',
+      payloadFormat: 'JSON'
+    };
+
+    const tabsEl = document.getElementById('tabs');
+    const panelsEl = document.getElementById('panels');
+    const statusBox = document.getElementById('statusBox');
+    const answeredCount = document.getElementById('answeredCount');
+    const submitBtn = document.getElementById('submitBtn');
+
+    function buildTabsAndPanels() {
+      let globalIndex = 1;
+
+      categories.forEach((category, categoryIndex) => {
+        const tab = document.createElement('button');
+        tab.className = `tab-button${categoryIndex === 0 ? ' active' : ''}`;
+        tab.type = 'button';
+        tab.role = 'tab';
+        tab.dataset.tab = category.id;
+        tab.setAttribute('aria-selected', String(categoryIndex === 0));
+        tab.setAttribute('aria-controls', `tab-${category.id}`);
+        tab.id = `btn-${category.id}`;
+        tab.innerHTML = `${category.title.split(',')[0]} <span class="tab-meta">${category.questions.length}</span>`;
+        tabsEl.appendChild(tab);
+
+        const panel = document.createElement('section');
+        panel.className = `tab-panel${categoryIndex === 0 ? ' active' : ''}`;
+        panel.id = `tab-${category.id}`;
+        panel.role = 'tabpanel';
+        panel.setAttribute('aria-labelledby', `btn-${category.id}`);
+
+        const items = category.questions.map((question) => {
+          const currentIndex = String(globalIndex).padStart(2, '0');
+          const itemHtml = `
+            <article class="faq-item">
+              <div class="faq-item-header">
+                <span class="faq-index">${currentIndex}</span>
+                <h3 class="faq-question">${question}</h3>
+              </div>
+              <label class="question-field">
+                <span class="label">Resposta</span>
+                <textarea data-question-id="${currentIndex}" data-question-text="${escapeHtml(question)}" placeholder="Digite a resposta desta pergunta..."></textarea>
+              </label>
+            </article>
+          `;
+          globalIndex += 1;
+          return itemHtml;
+        }).join('');
+
+        panel.innerHTML = `
+          <div class="category-card">
+            <div class="category-top">
+              <div>
+                <span class="category-kicker">Categoria ${String(categoryIndex + 1).padStart(2, '0')}</span>
+                <h2 class="category-title">${category.title}</h2>
+                <p class="category-description">${category.description}</p>
+              </div>
+              <div class="category-count">${category.questions.length} itens</div>
+            </div>
+            <div class="faq-list">${items}</div>
+          </div>
+        `;
+
+        panelsEl.appendChild(panel);
+      });
+    }
+
+    function escapeHtml(value) {
+      return value
+        .replaceAll('&', '&amp;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;');
+    }
+
+    function activateTab(tabName) {
+      document.querySelectorAll('[data-tab]').forEach((button) => {
+        const isActive = button.dataset.tab === tabName;
+        button.classList.toggle('active', isActive);
+        button.setAttribute('aria-selected', String(isActive));
+      });
+
+      document.querySelectorAll('.tab-panel').forEach((panel) => {
+        panel.classList.toggle('active', panel.id === `tab-${tabName}`);
+      });
+    }
+
+    function getTextareas() {
+      return Array.from(document.querySelectorAll('textarea[data-question-id]'));
+    }
+
+    function collectResponses() {
+      return getTextareas().map((textarea) => ({
+        id: textarea.dataset.questionId,
+        question: textarea.dataset.questionText,
+        answer: textarea.value.trim()
+      })).filter((item) => item.answer);
+    }
+
+    function updateAnsweredCount() {
+      const answered = collectResponses().filter((item) => item.answer).length;
+      answeredCount.textContent = `${answered} respondidas`;
+    }
+
+    function persistDraft() {
+      const responseMap = {};
+      getTextareas().forEach((textarea) => {
+        responseMap[textarea.dataset.questionId] = textarea.value;
+      });
+      localStorage.setItem(storageKey, JSON.stringify(responseMap));
+      updateAnsweredCount();
+    }
+
+    function restoreDraft() {
+      const raw = localStorage.getItem(storageKey);
+      if (!raw) {
+        updateAnsweredCount();
+        return;
+      }
+
+      try {
+        const draft = JSON.parse(raw);
+        getTextareas().forEach((textarea) => {
+          textarea.value = draft[textarea.dataset.questionId] || '';
+        });
+      } catch (error) {
+        console.error('Falha ao restaurar draft', error);
+      }
+
+      updateAnsweredCount();
+    }
+
+    function setStatus(message, type = '') {
+      statusBox.textContent = message;
+      statusBox.className = `status${type ? ` ${type}` : ''}`;
+    }
+
+    function buildPayload() {
+      const responses = collectResponses();
+      const total = getTextareas().length;
+      return JSON.stringify({
+        source: 'FAQ Nick Motors',
+        updatedAt: new Date().toISOString(),
+        totalQuestions: total,
+        answeredQuestions: responses.length,
+        responses
+      });
+    }
+
+    function parseResponses(raw) {
+      const answers = {};
+      if (!raw) return answers;
+      try {
+        const data = JSON.parse(raw);
+        if (data && Array.isArray(data.responses)) {
+          data.responses.forEach((item) => {
+            if (item && item.id != null && item.answer) answers[String(item.id)] = item.answer;
+          });
+          return answers;
+        }
+      } catch (_) {
+        // fallback: tenta parsear formato YAML antigo
+      }
+      const re = /-\s*id:\s*"([^"]+)"\s*\n\s*question:[\s\S]*?\n\s*answer:\s*(?:"((?:[^"\\]|\\.)*)"|\|\n((?:[ \t]{6,}.*\n?)+?))(?=\n\s{0,4}-\s*id:|\n[a-zA-Z_]|$)/g;
+      let m;
+      while ((m = re.exec(raw)) !== null) {
+        const id = m[1];
+        let ans = '';
+        if (m[2] !== undefined) {
+          ans = m[2].replace(/\\n/g, '\n').replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+        } else if (m[3] !== undefined) {
+          ans = m[3].replace(/^[ \t]{6}/gm, '').replace(/\n$/, '');
+        }
+        if (ans && ans !== '[sem resposta]') answers[id] = ans;
+      }
+      return answers;
+    }
+
+    async function fetchCustomValue() {
+      const { locationId, customValueId, bearerToken, apiVersion } = crmConfig;
+      if (!locationId || !customValueId || !bearerToken) return;
+
+      const endpoint = `https://services.leadconnectorhq.com/locations/${encodeURIComponent(locationId)}/customValues/${encodeURIComponent(customValueId)}`;
+      try {
+        setStatus('Carregando respostas salvas do CRM...');
+        const res = await fetch(endpoint, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${bearerToken}`,
+            Accept: 'application/json',
+            Version: apiVersion
+          }
+        });
+        if (!res.ok) throw new Error(`Falha ${res.status}`);
+        const data = await res.json();
+        const value = (data && data.customValue && data.customValue.value) || '';
+        if (!value) { setStatus(''); return; }
+
+        const answers = parseResponses(value);
+        let filled = 0;
+        getTextareas().forEach((ta) => {
+          const v = answers[ta.dataset.questionId];
+          if (v != null) { ta.value = v; filled++; }
+        });
+        persistDraft();
+        setStatus(`Sincronizado: ${filled} resposta(s) carregada(s) do CRM.`, 'success');
+      } catch (error) {
+        console.error(error);
+        setStatus(`Não foi possível carregar do CRM: ${error.message}`, 'error');
+      }
+    }
+
+    async function updateCustomValue(silent = false) {
+      const { locationId, customValueId, bearerToken, customValueName, apiVersion } = crmConfig;
+
+      if (!locationId || !customValueId || !bearerToken) {
+        if (!silent) setStatus('Configuração hardcoded do CRM está incompleta.', 'error');
+        return;
+      }
+
+      const serializedValue = buildPayload();
+      const endpoint = `https://services.leadconnectorhq.com/locations/${encodeURIComponent(locationId)}/customValues/${encodeURIComponent(customValueId)}`;
+      const primaryBody = { name: customValueName, value: serializedValue };
+
+      if (!silent) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Enviando...';
+        setStatus('Enviando respostas para o CRM...');
+      } else {
+        setStatus('Salvando...');
+      }
+
+      try {
+        let response = await fetch(endpoint, {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${bearerToken}`,
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Version: apiVersion
+          },
+          body: JSON.stringify(primaryBody)
+        });
+
+        let responseData = null;
+        const responseText = await response.text();
+        try {
+          responseData = responseText ? JSON.parse(responseText) : null;
+        } catch {
+          responseData = responseText;
+        }
+
+        if (!response.ok) {
+          const details = typeof responseData === 'string'
+            ? responseData
+            : JSON.stringify(responseData, null, 2);
+          throw new Error(`Falha ${response.status}. ${details || 'Sem detalhes retornados.'}`);
+        }
+
+        persistDraft();
+        setStatus(silent ? 'Salvo automaticamente no CRM.' : 'Custom value atualizado com sucesso no CRM.', 'success');
+      } catch (error) {
+        console.error(error);
+        setStatus(`Erro no envio: ${error.message}`, 'error');
+      } finally {
+        if (!silent) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Salvar e Enviar';
+        }
+      }
+    }
+
+    let autoSaveTimer = null;
+    function scheduleAutoSave() {
+      clearTimeout(autoSaveTimer);
+      autoSaveTimer = setTimeout(() => updateCustomValue(true), 1200);
+    }
+
+    function handleTextareaInput() {
+      persistDraft();
+      scheduleAutoSave();
+    }
+
+    buildTabsAndPanels();
+    restoreDraft();
+    fetchCustomValue();
+
+    document.querySelectorAll('[data-tab]').forEach((button) => {
+      button.addEventListener('click', () => activateTab(button.dataset.tab));
+    });
+
+    getTextareas().forEach((textarea) => {
+      textarea.addEventListener('input', handleTextareaInput);
+    });
+
+    submitBtn.addEventListener('click', () => updateCustomValue(false));
+  </script>
+</body>
+</html>

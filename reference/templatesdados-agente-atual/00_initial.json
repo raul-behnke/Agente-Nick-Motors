@@ -1,0 +1,26 @@
+{
+    "informações do lead": {
+        "Tarefa: Apresentação inicial": "concluido",
+        "Tarefa: Confirmar nome do lead": "",
+        "Nome do Lead": "{{contact.first_name}}",
+        "Canal de Entrada": "{{contact.source}}",
+        "Cidade/Região": "",
+        "Veículo de Interesse (modelo/categoria)": "{{contact.veculo_de_interesse}}",
+        "Interesse_Tipo": "nao_informado",
+        "Status_Atendimento": "inicio"
+    },
+    "Interesse": {
+        "Interesse_Tipo": "nao_informado",
+        "Interesse_Termo": "",
+        "Faixa_Preco": "",
+        "AutoConf_Query": "",
+        "Interesse_Aberto_Opcoes": "nao_informado"
+    },
+    "Informações Adicionais": "",
+    "Controle": {
+        "Tentativas_Coleta_Interesse": 0,
+        "Escalonar_Humano": "nao",
+        "Finalizacao_Personalizada": "",
+        "Tarefa: Enviar Instagram Nick Motors": ""
+    }
+}

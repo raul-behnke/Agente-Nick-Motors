@@ -1,0 +1,17 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: nick_postgres
+    environment:
+      POSTGRES_USER: nick
+      POSTGRES_PASSWORD: nick
+      POSTGRES_DB: nick_agent
+    ports:
+      - "5434:5432"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nick -d nick_agent"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
