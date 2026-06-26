@@ -19,17 +19,20 @@ router = APIRouter()
 log = get_logger(__name__)
 
 
-# Saudação oficial Nick Motors — texto FIXO, verbatim, sem variação. 3 bolhas (|||).
-# (PLAN §4.1) Não inclui nome do cliente, não inclui pergunta.
-SAUDACAO_OFICIAL = (
-    "Oi! 😊"
-    "|||Aqui é da Equipe do Pré-Atendimento da Nick Motors Seminovos."
-    "|||Obrigado pelo seu contato!"
-)
+# Saudação oficial Nick Motors (PLAN §4.1) — abertura fixa + 1ª pergunta do funil
+# (nome). Personaliza pela presença do veículo de interesse pré-preenchido. 3 bolhas.
+SAUD_B1 = "Oi! 😊"
+SAUD_B2 = "Aqui é da Equipe do Pré-Atendimento da Nick Motors Seminovos."
+SAUD_B3_SEM_VEICULO = "Pra começar, como posso te chamar?"
+SAUD_B3_COM_VEICULO = "Vi seu interesse no {veiculo}! Pra começar, como posso te chamar?"
 
 
-def _greeting_bubbles() -> list[str]:
-    return [b.strip() for b in SAUDACAO_OFICIAL.split("|||") if b.strip()]
+def _greeting_bubbles(veiculo: str | None = None) -> list[str]:
+    if veiculo and veiculo.strip():
+        b3 = SAUD_B3_COM_VEICULO.format(veiculo=veiculo.strip())
+    else:
+        b3 = SAUD_B3_SEM_VEICULO
+    return [SAUD_B1, SAUD_B2, b3]
 
 
 @router.post("/sessions/{contact_id}/greet", dependencies=[Depends(require_secret)])
@@ -66,7 +69,7 @@ async def greet(contact_id: str = Path(..., min_length=1)) -> dict:
     )
     veiculo_str = (veiculo or "").strip() or None
 
-    bubbles = _greeting_bubbles()
+    bubbles = _greeting_bubbles(veiculo_str)
 
     # 4) envia saudação oficial (síncrono — só 200 após todas as bolhas)
     try:
@@ -88,11 +91,13 @@ async def greet(contact_id: str = Path(..., min_length=1)) -> dict:
     except Exception as e:
         log.error("greet_mark_failed", err=str(e))
 
-    # 6) persiste state (veículo de interesse pré-fill -> origem p/ apresentação no 1º turno)
+    # 6) persiste state. Veículo pré-fill -> origem p/ foco no 1º turno. A saudação
+    # já perguntou o nome -> registra em last_asked_fields p/ o planner não repetir.
     new_state = SessionState(
         stage="abertura",
         greeted=True,
         veiculo_origem=VeiculoOrigem(texto=veiculo_str) if veiculo_str else None,
+        last_asked_fields=["nome"],
     )
     try:
         await session_repo.save(contact_id, new_state)

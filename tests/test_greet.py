@@ -66,13 +66,15 @@ def test_greet_sem_veiculo(patch_all) -> None:
         body = r.json()
         assert body["skipped"] is False
         assert body["com_veiculo"] is False
-        assert body["bubbles"] == 3  # saudação oficial fixa = 3 bolhas
-    # saudação oficial verbatim, mesma com ou sem veículo
+        assert body["bubbles"] == 3  # abertura(2) + 1ª pergunta (nome)
     all_msgs = " ".join(c.kwargs["message"] for c in patch_all["send"].await_args_list)
     assert "Nick Motors Seminovos" in all_msgs
+    assert "como posso te chamar" in all_msgs.lower()  # 1ª pergunta do funil
     assert patch_all["send"].await_args.kwargs["message_type"] == "SMS"
-    assert patch_all["store"]["c1"].greeted is True
-    assert patch_all["store"]["c1"].veiculo_origem is None
+    st = patch_all["store"]["c1"]
+    assert st.greeted is True
+    assert st.veiculo_origem is None
+    assert st.last_asked_fields == ["nome"]  # planner não repete nome
 
 
 def test_greet_com_veiculo(patch_all) -> None:
@@ -83,9 +85,10 @@ def test_greet_com_veiculo(patch_all) -> None:
         body = r.json()
         assert body["com_veiculo"] is True
         assert body["veiculo"] == "Renault Duster"
-    # saudação oficial NÃO contém o veículo (texto fixo); veículo vira origem p/ 1º turno
+    # saudação personalizada: reconhece o veículo + pergunta o nome
     all_msgs = " ".join(c.kwargs["message"] for c in patch_all["send"].await_args_list)
-    assert "Renault Duster" not in all_msgs
+    assert "Renault Duster" in all_msgs
+    assert "como posso te chamar" in all_msgs.lower()
     st = patch_all["store"]["c1"]
     assert st.greeted is True
     assert st.veiculo_origem and st.veiculo_origem.texto == "Renault Duster"
