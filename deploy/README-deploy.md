@@ -1,11 +1,11 @@
 # Deploy — Nick Motors Agent
 
 Single-tenant. App FastAPI (`zoi_agent`) + Postgres, atrás de nginx + TLS.
-Subdomínio placeholder: `nick-motors.appzoi.com.br` (ajuste pro seu DNS).
+Subdomínio placeholder: `nickmotors.appzoi.com.br` (ajuste pro seu DNS).
 
 ## Pré-requisitos
 - VPS com Docker + Docker Compose, nginx, certbot.
-- DNS A de `nick-motors.appzoi.com.br` → IP da VPS.
+- DNS A de `nickmotors.appzoi.com.br` → IP da VPS.
 - `.env.prod` preenchido (copie de `.env.prod.example`).
 
 ## Passos
@@ -29,15 +29,15 @@ docker compose -f compose.prod.yml exec -T postgres \
   psql -U nick -d nick_agent < migrations/v2_canonical_envelope.sql
 
 # 5. nginx + TLS
-cp nginx-vhost.conf /etc/nginx/sites-available/nick-motors.appzoi.com.br.conf
-ln -sf /etc/nginx/sites-available/nick-motors.appzoi.com.br.conf \
-       /etc/nginx/sites-enabled/nick-motors.appzoi.com.br
-certbot --nginx -d nick-motors.appzoi.com.br --non-interactive --agree-tos -m admin@appzoi.com.br
+cp nginx-vhost.conf /etc/nginx/sites-available/nickmotors.appzoi.com.br.conf
+ln -sf /etc/nginx/sites-available/nickmotors.appzoi.com.br.conf \
+       /etc/nginx/sites-enabled/nickmotors.appzoi.com.br
+certbot --nginx -d nickmotors.appzoi.com.br --non-interactive --agree-tos -m admin@appzoi.com.br
 nginx -t && systemctl reload nginx
 
 # 6. smoke
-curl -fsSL https://nick-motors.appzoi.com.br/health
-curl -fsSL https://nick-motors.appzoi.com.br/metrics | head
+curl -fsSL https://nickmotors.appzoi.com.br/health
+curl -fsSL https://nickmotors.appzoi.com.br/metrics | head
 ```
 
 ## Workflows GHL (apontar pro servidor)

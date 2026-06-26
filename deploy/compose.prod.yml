@@ -33,7 +33,7 @@ services:
     # App escuta 127.0.0.1:8000 — nginx host-level faz proxy + TLS.
     # NÃO publica em 0.0.0.0 pra evitar bypass do nginx.
     ports:
-      - "127.0.0.1:8000:8000"
+      - "127.0.0.1:8100:8000"
     healthcheck:
       test: ["CMD", "curl", "-fsSL", "http://localhost:8000/health"]
       interval: 30s
