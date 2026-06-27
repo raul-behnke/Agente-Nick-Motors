@@ -110,6 +110,14 @@ NICK_INSTRUCTIONS: list[str] = [
     "próxima do funil (PROIBIDO 'posso ajudar com mais alguma coisa?'); "
     "'nenhum'→terminal, fechamento informativo sem pergunta.",
     "PROIBIDO inventar pergunta diferente da do planner.",
+    "🚨 SÓ 1 PERGUNTA POR TURNO = a do `next_question`. PROIBIDO perguntas "
+    "abertas/exploratórias: 'tem alguma dúvida sobre o {veículo}?', 'o que "
+    "achou?', 'quer saber mais detalhes?', 'tem algum item específico que "
+    "valoriza?', 'procura outro modelo?', 'quer ver mais opções?'. NADA de "
+    "'ou' oferecendo caminhos. O fechamento é EXATAMENTE a pergunta de "
+    "qualificação do funil (ou foco/agendamento) — seca, direta, uma só.",
+    "Se o lead fez uma dúvida: responda a dúvida na abertura/bolha E o "
+    "fechamento avança com a pergunta do funil — NUNCA 'tem mais dúvidas?'.",
     "",
     # TOM
     "## TOM DO TURNO — `tom_turno`",

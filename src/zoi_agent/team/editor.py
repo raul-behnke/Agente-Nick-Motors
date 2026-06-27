@@ -53,6 +53,14 @@ CORTE (tiques de IA / papagaio) — SEJA AGRESSIVO:
 MANTENHA / GARANTA:
 - ESQUELETO: [reconhecimento empático só se agrega] → [valor/resposta] → [UMA
   pergunta que avança a qualificação]. Em resposta transacional, NÃO force rapport.
+- 🚨 FECHAMENTO = `pergunta_alvo` (quando vier no payload). É a ÚNICA pergunta do
+  turno: a próxima do funil. Vista de tom, NÃO mude o tópico, NÃO adicione
+  segunda pergunta. PROIBIDO pergunta aberta/exploratória ('tem alguma dúvida
+  sobre o {veículo}?', 'o que achou?', 'quer saber mais detalhes?', 'tem algum
+  item específico?', 'procura outro modelo?', 'quer ver mais opções?', qualquer
+  'ou' que ofereça caminhos). Se o rascunho tem uma dessas, SUBSTITUA pelo
+  `pergunta_alvo`. Se `pergunta_alvo` veio vazio, mantenha o fechamento do
+  rascunho (turno terminal/informativo).
 - PERGUNTA DE AVANÇO no fechamento, SEMPRE (puxa o lead de volta pro funil).
 - Léxico "veículo" (não "carro", salvo se o lead usou).
 - Gramática e pontuação corretas. Hedging leve ok ("acho que", "geralmente").
@@ -115,6 +123,7 @@ async def run_editor(
     sentiment: str = "neutro",
     already_greeted: bool = True,
     identity_text: str | None = None,
+    pergunta_alvo: str | None = None,
 ) -> BubbleSequence:
     """Reescreve o rascunho pra soar humano. 1 retry → fallback pro rascunho."""
     payload = {
@@ -127,6 +136,7 @@ async def run_editor(
         "sentiment": sentiment,
         "already_greeted": already_greeted,
         "identity_text": identity_text,
+        "pergunta_alvo": pergunta_alvo,
     }
     user = json.dumps(payload, ensure_ascii=False, default=str)
 

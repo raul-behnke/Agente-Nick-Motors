@@ -568,6 +568,11 @@ async def run_team_turn(
             f"{'lead' if m.get('direction') == 'inbound' else 'nick'}: {(m.get('body') or '')[:200]}"
             for m in _serialize_history(history, limit=8)
         )
+        pergunta_alvo = (
+            next_question.canonical_text
+            if next_question.intent in ("funil", "foco", "agendamento")
+            else None
+        )
         seq = await editor.run_editor(
             rascunho=seq,
             last_user_text=last_message,
@@ -578,6 +583,7 @@ async def run_team_turn(
             sentiment=update.sentiment,
             already_greeted=state.greeted,
             identity_text=ai_identity_text,
+            pergunta_alvo=pergunta_alvo,
         )
     except Exception as e:
         log.error("editor_pass_failed_fallback", err=str(e))
