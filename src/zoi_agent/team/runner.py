@@ -568,11 +568,20 @@ async def run_team_turn(
             f"{'lead' if m.get('direction') == 'inbound' else 'nick'}: {(m.get('body') or '')[:200]}"
             for m in _serialize_history(history, limit=8)
         )
-        pergunta_alvo = (
-            next_question.canonical_text
-            if next_question.intent in ("funil", "foco", "agendamento")
-            else None
-        )
+        # pergunta-alvo do fechamento. PRIORIDADE: se o EstoqueExpert decidiu
+        # refinar (ex: veículo da origem NÃO existe no estoque), a pergunta dele
+        # vence o foco do planner — senão o agente perguntaria "esse te interessou?"
+        # sobre um veículo indisponível, sem informar a indisponibilidade.
+        if (
+            inv_decision
+            and inv_decision.action == "perguntar_refinamento"
+            and inv_decision.pergunta_refinamento
+        ):
+            pergunta_alvo = inv_decision.pergunta_refinamento
+        elif next_question.intent in ("funil", "foco", "agendamento"):
+            pergunta_alvo = next_question.canonical_text
+        else:
+            pergunta_alvo = None
         seq = await editor.run_editor(
             rascunho=seq,
             last_user_text=last_message,

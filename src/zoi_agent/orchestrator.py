@@ -601,6 +601,11 @@ async def _run_turn_inner(
     if len(rendered_ids) == 1:
         new_state.last_card_external_id = rendered_ids[0]
 
+    # Origem do CRM JÁ foi tratada neste turno (card mostrado OU indisponibilidade
+    # informada). Marca p/ o planner não re-disparar o gate de foco todo turno.
+    if new_state.veiculo_origem and not new_state.origem_apresentada:
+        new_state.origem_apresentada = True
+
     # Fotos (quando EstoqueExpert pediu enviar_fotos_de)
     photo_urls: list[str] = []
     if inv_decision and getattr(inv_decision, "enviar_fotos_de", None):

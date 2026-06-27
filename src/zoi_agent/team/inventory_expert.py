@@ -239,6 +239,13 @@ _INSTRUCTIONS = [
     "- Se NÃO há match -> hint_narrativo='não temos esse modelo, mas separei "
     "alternativas próximas' + escolha 1-3 parecidos por categoria/faixa de "
     "preço/uso similar.",
+    "🚨 VEÍCULO DA ORIGEM/NOMINADO INDISPONÍVEL: quando o veículo de interesse "
+    "(origem do CRM ou nominado) NÃO existe no estoque, SEMPRE: (1) hint_narrativo "
+    "começa declarando a indisponibilidade ('não temos o {veículo} no estoque'); "
+    "(2) se usar perguntar_refinamento, a `pergunta_refinamento` DEVE abrir "
+    "informando a indisponibilidade antes de refinar (ex: 'Não temos o {veículo} "
+    "no momento. Quer que eu busque algo parecido? Qual seu uso principal?'). "
+    "NUNCA deixe o lead achar que o veículo existe.",
     "",
     "## 🎯 FILTROS INTELIGENTES POR PERFIL DE USO",
     "Quando o lead descreve USO ou CONTEXTO (não filtro técnico direto), você "

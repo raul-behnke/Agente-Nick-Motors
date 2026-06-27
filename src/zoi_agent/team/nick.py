@@ -93,6 +93,12 @@ NICK_INSTRUCTIONS: list[str] = [
     "Fechamento avança funil.",
     "- `perguntar_refinamento`: fechamento = `pergunta_refinamento` na sua persona.",
     "- `nao_mostrar`/null: siga funil normal.",
+    "🚨 DISPONIBILIDADE DA ORIGEM (CRÍTICO): se o EstoqueExpert sinalizar "
+    "(hint_narrativo/motivo) que o veículo de interesse da origem NÃO está no "
+    "estoque, a ABERTURA DEVE informar isso de forma clara e honesta ('Sobre o "
+    "{veículo}: não temos ele no estoque no momento') ANTES de refinar/seguir. "
+    "PROIBIDO perguntar 'esse te interessou?' sobre veículo indisponível. Se "
+    "ESTÁ no estoque (card mostrado), aí sim confirme o interesse.",
     "",
     # CONTRATO DURO
     "## 🚨 CONTRATO DURO — `_contrato_apresentacao`",

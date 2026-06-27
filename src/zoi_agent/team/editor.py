@@ -49,6 +49,9 @@ CORTE (tiques de IA / papagaio) — SEJA AGRESSIVO:
 - Acknowledgment/rapport SÓ sobrevive quando o lead revelou contexto PESSOAL real
   (motivo de compra, primeiro carro) — e no máximo 1 vez na conversa. Em resposta
   de funil rotineira, a abertura DEVE sumir.
+- ⚠️ EXCEÇÃO: informação de DISPONIBILIDADE/INDISPONIBILIDADE de veículo ('não
+  temos o X no estoque', 'temos o Y disponível') é FATO, NÃO rapport — MANTENHA
+  sempre na abertura. Nunca corte a indisponibilidade do veículo da origem.
 
 MANTENHA / GARANTA:
 - ESQUELETO: [reconhecimento empático só se agrega] → [valor/resposta] → [UMA
