@@ -28,6 +28,7 @@ class Settings(BaseSettings):
     ghl_appointment_duration_min: int = 45  # calendar NICK MOTORS - VISITAS = slots de 45min
     ghl_handoff_workflow_id: str
     ghl_tag_agent_gate: str = "agente-ia"
+    ghl_message_channel: str = "WhatsApp"  # canal de envio GHL (WhatsApp-first). SMS/IG p/ outros.
 
     # Server
     webhook_secret: str

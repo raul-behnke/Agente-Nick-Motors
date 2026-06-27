@@ -70,7 +70,8 @@ def test_greet_sem_veiculo(patch_all) -> None:
     all_msgs = " ".join(c.kwargs["message"] for c in patch_all["send"].await_args_list)
     assert "Nick Motors Seminovos" in all_msgs
     assert "como posso te chamar" in all_msgs.lower()  # 1ª pergunta do funil
-    assert patch_all["send"].await_args.kwargs["message_type"] == "SMS"
+    # canal default (WhatsApp) — send_message resolve via settings, sem override aqui
+    assert patch_all["send"].await_args.kwargs.get("message_type") is None
     st = patch_all["store"]["c1"]
     assert st.greeted is True
     assert st.veiculo_origem is None

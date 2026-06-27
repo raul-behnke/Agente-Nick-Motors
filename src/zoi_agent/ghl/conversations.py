@@ -36,12 +36,12 @@ async def send_message(
     message: str | None = None,
     conversation_id: str | None = None,
     attachments: list[str] | None = None,
-    message_type: str = "SMS",
+    message_type: str | None = None,
     client: GHLClient | None = None,
 ) -> dict:
     c = client or get_client()
     payload: dict = {
-        "type": message_type,
+        "type": message_type or settings.ghl_message_channel,
         "contactId": contact_id,
     }
     if message is not None:

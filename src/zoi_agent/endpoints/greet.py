@@ -74,7 +74,7 @@ async def greet(contact_id: str = Path(..., min_length=1)) -> dict:
     # 4) envia saudação oficial (síncrono — só 200 após todas as bolhas)
     try:
         for i, b in enumerate(bubbles):
-            await ghl_conv.send_message(contact_id=contact_id, message=b, message_type="SMS")
+            await ghl_conv.send_message(contact_id=contact_id, message=b)
             if i < len(bubbles) - 1:
                 await asyncio.sleep(
                     random.uniform(settings.responder_sleep_min, settings.responder_sleep_max)
