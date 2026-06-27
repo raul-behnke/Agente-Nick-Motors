@@ -27,9 +27,28 @@ SAUD_B3_SEM_VEICULO = "Pra começar, como posso te chamar?"
 SAUD_B3_COM_VEICULO = "Vi seu interesse no {veiculo}! Pra começar, como posso te chamar?"
 
 
+def _short_veiculo(v: str) -> str:
+    """Versão concisa do título do veículo p/ a saudação (marca+modelo+ano).
+
+    Título do CRM é longo ('VolksWagen T-Cross Comfor. 200 TSI 1.0 Flex 5p Aut.
+    - Preto - 2022') e mensagens muito longas travam no provider. Extrai
+    marca+modelo (antes da versão) + ano, com fallback de corte por tamanho.
+    """
+    import re
+    v = " ".join(v.split())
+    year = re.search(r"\b(19|20)\d{2}\b", v)
+    head = v.split(" - ")[0]  # remove sufixo "- Cor - Ano"
+    words = head.split()
+    base = " ".join(words[:3]) if len(words) > 3 else head
+    base = base.rstrip(" .-")
+    if year:
+        return f"{base} {year.group(0)}"
+    return base[:40].rstrip(" .-")
+
+
 def _greeting_bubbles(veiculo: str | None = None) -> list[str]:
     if veiculo and veiculo.strip():
-        b3 = SAUD_B3_COM_VEICULO.format(veiculo=veiculo.strip())
+        b3 = SAUD_B3_COM_VEICULO.format(veiculo=_short_veiculo(veiculo))
     else:
         b3 = SAUD_B3_SEM_VEICULO
     return [SAUD_B1, SAUD_B2, b3]
@@ -77,7 +96,7 @@ async def greet(contact_id: str = Path(..., min_length=1)) -> dict:
             await ghl_conv.send_message(contact_id=contact_id, message=b)
             if i < len(bubbles) - 1:
                 await asyncio.sleep(
-                    random.uniform(settings.responder_sleep_min, settings.responder_sleep_max)
+                    random.uniform(settings.greet_sleep_min, settings.greet_sleep_max)
                 )
     except Exception as e:
         log.error("greet_send_failed", err=str(e))

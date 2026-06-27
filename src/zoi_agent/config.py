@@ -50,6 +50,8 @@ class Settings(BaseSettings):
     photo_max_send: int = 6  # máximo de fotos enviadas por veículo (evita spam)
     responder_sleep_min: float = 0.6
     responder_sleep_max: float = 1.2
+    greet_sleep_min: float = 2.0   # pacing maior na saudação (evita throttle do provider)
+    greet_sleep_max: float = 3.5
     human_request_threshold: int = 2
     ai_identity_admit_at: int = 2
 
