@@ -153,6 +153,26 @@ def extract_inbound_burst(messages: list[dict]) -> list[dict]:
     return [m for m in msgs[last_out_idx + 1:] if m.get("direction") == "inbound"]
 
 
+# Dedup de mensagem inbound já processada (retries do GHL durante restart/timeout
+# reenviam o MESMO messageId -> sem isso, o agente reprocessa e repete a pergunta).
+from collections import OrderedDict
+
+_SEEN_INBOUND: "OrderedDict[str, None]" = OrderedDict()
+_SEEN_MAX = 1000
+
+
+def _seen_inbound(message_id: str) -> bool:
+    """True se este messageId já foi processado (marca como visto se novo)."""
+    if not message_id:
+        return False
+    if message_id in _SEEN_INBOUND:
+        return True
+    _SEEN_INBOUND[message_id] = None
+    if len(_SEEN_INBOUND) > _SEEN_MAX:
+        _SEEN_INBOUND.popitem(last=False)
+    return False
+
+
 def _unwrap_messages(payload: dict) -> list[dict]:
     block = payload.get("messages")
     if isinstance(block, dict):
@@ -241,6 +261,13 @@ async def inbound(request: Request) -> dict:
             outbound_at=latest_any.get("dateAdded"),
         )
         return {"status": "ignored", "reason": "inbound superseded by outbound"}
+
+    # Dedup: GHL re-tenta o webhook (timeout/restart) com o MESMO messageId.
+    # Sem isso, o agente reprocessa a mesma mensagem e repete a pergunta do funil.
+    latest_id = str(latest.get("id") or latest.get("messageId") or "")
+    if latest_id and _seen_inbound(latest_id):
+        log.info("webhook_duplicate_inbound", contact_id=contact_id, message_id=latest_id)
+        return {"status": "ignored", "reason": "duplicate inbound"}
 
     # Agrega a rajada inteira (texto + attachments) — lead pode dividir resposta
     # em várias msgs consecutivas ("280km" + "Ta quitadinho" + "inteiro").
